@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Route;
  */
 Route::post('/register', [RegisterController::class, 'store']);
 
-Route::apiResource('/users', UserController::class);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('/users', UserController::class);
+});
 
 Route::get('/', function () {
     return response()->json(['message' => 'ok']);
