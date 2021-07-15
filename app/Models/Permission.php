@@ -15,4 +15,9 @@ class Permission extends Model
     {
         return $this->hasMany(Resource::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

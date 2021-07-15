@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->model->paginate();
+        $users = $this->model->with('permissions')->paginate();
 
         return UserResource::collection($users);
     }
@@ -55,7 +55,7 @@ class UserController extends Controller
      */
     public function show($identify)
     {
-        $user = $this->model->where('uuid', $identify)->firstOrFail();
+        $user = $this->model->with('permissions')->where('uuid', $identify)->firstOrFail();
 
         return new UserResource($user);
     }

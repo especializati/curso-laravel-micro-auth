@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\{
+    PermissionUserController,
     ResourceController,
     UserController
 };
@@ -19,6 +20,7 @@ Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/resources', [ResourceController::class, 'index']);
 
+    Route::get('/users/permissions', [PermissionUserController::class, 'permissionsUser']);
     Route::apiResource('/users', UserController::class);
 });
 
