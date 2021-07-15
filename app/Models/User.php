@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->permissions()->where('name', $permission)->first() ? true : false;
     }
+
+    public function isSuperAdmin()
+    {
+        return in_array($this->email, config('acl.admins'));
+    }
 }
