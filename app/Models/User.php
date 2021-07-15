@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Permission::class);
     }
+
+    public function hasPermission(string $permission)
+    {
+        return $this->permissions()->where('name', $permission)->first() ? true : false;
+    }
 }
