@@ -22,7 +22,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/users/can/{permission}', [PermissionUserController::class, 'userHasPermission']);
     Route::post('/users/permissions', [PermissionUserController::class, 'addPermissionsUser']);
+    Route::delete('/users/permissions', [PermissionUserController::class, 'removePermissionsUser'])->middleware('can:deletar_permissao_usuario');
     Route::get('/users/{identify}/permissions', [PermissionUserController::class, 'permissionsUser']);
+    
     Route::apiResource('/users', UserController::class);
 });
 
