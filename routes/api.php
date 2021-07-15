@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\{
+    ResourceController,
     UserController
 };
 use App\Http\Controllers\Api\Auth\AuthController;
@@ -16,6 +17,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/resources', [ResourceController::class, 'index']);
+
     Route::apiResource('/users', UserController::class);
 });
 
