@@ -7,6 +7,7 @@ use App\Http\Requests\AddPermissionsUser;
 use App\Http\Resources\PermissionResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PermissionUserController extends Controller
 {
@@ -29,6 +30,10 @@ class PermissionUserController extends Controller
 
     public function addPermissionsUser(AddPermissionsUser $request)
     {
+        if (Gate::denies('add_permissions_user')) {
+            abort(403, 'Not Authorized');
+        }
+
         $user = $this->user->where('uuid', $request->user)->firstOrFail();
 
         $user->permissions()->attach($request->permissions);
