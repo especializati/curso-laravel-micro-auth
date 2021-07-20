@@ -23,7 +23,7 @@ class PermissionFactory extends Factory
     public function definition()
     {
         return [
-            'permission_id' => Resource::factory(),
+            'resource_id' => Resource::factory(),
             'name' => $this->faker->unique()->name(),
         ];
     }
