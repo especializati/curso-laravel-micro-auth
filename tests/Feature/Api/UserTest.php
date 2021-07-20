@@ -150,4 +150,100 @@ class UserTest extends TestCase
                         
         $response->assertStatus(201);
     }
+
+    public function test_validation_404_update_user()
+    {
+        $permission = Permission::factory()->create(['name' => 'users']);
+
+        $user = User::factory()->create();
+        $token = $user->createToken('test')->plainTextToken;
+
+        $user->permissions()->attach($permission);
+
+        $response = $this
+                        ->withHeaders([
+                            'Authorization' => "Bearer {$token}"
+                        ])
+                        ->putJson('/users/fake_user', [
+                            'name' => 'Carlos Ferreira',
+                            'email' => 'carlos@especializati.com.br',
+                        ]);
+                        
+        $response->assertStatus(404);
+    }
+
+    public function test_validations_update_user()
+    {
+        $permission = Permission::factory()->create(['name' => 'users']);
+
+        $user = User::factory()->create();
+        $token = $user->createToken('test')->plainTextToken;
+
+        $user->permissions()->attach($permission);
+
+        $response = $this
+                        ->withHeaders([
+                            'Authorization' => "Bearer {$token}"
+                        ])
+                        ->putJson("/users/{$user->uuid}", []);
+                        
+        $response->assertStatus(422);
+    }
+
+    public function test_update_user()
+    {
+        $permission = Permission::factory()->create(['name' => 'users']);
+
+        $user = User::factory()->create();
+        $token = $user->createToken('test')->plainTextToken;
+
+        $user->permissions()->attach($permission);
+
+        $response = $this
+                        ->withHeaders([
+                            'Authorization' => "Bearer {$token}"
+                        ])
+                        ->putJson("/users/{$user->uuid}", [
+                            'name' => 'User Updated',
+                            'email' => 'carlos@especializati.com.br',
+                        ]);
+                        
+        $response->assertStatus(200);
+    }
+
+    public function test_validation_404_delete_user()
+    {
+        $permission = Permission::factory()->create(['name' => 'users']);
+
+        $user = User::factory()->create();
+        $token = $user->createToken('test')->plainTextToken;
+
+        $user->permissions()->attach($permission);
+
+        $response = $this
+                        ->withHeaders([
+                            'Authorization' => "Bearer {$token}"
+                        ])
+                        ->deleteJson('/users/fake_user');
+                        
+        $response->assertStatus(404);
+    }
+
+    public function test_delete_user()
+    {
+        $permission = Permission::factory()->create(['name' => 'users']);
+
+        $user = User::factory()->create();
+        $token = $user->createToken('test')->plainTextToken;
+
+        $user->permissions()->attach($permission);
+
+        $response = $this
+                        ->withHeaders([
+                            'Authorization' => "Bearer {$token}"
+                        ])
+                        ->deleteJson("/users/{$user->uuid}");
+                        
+        $response->assertStatus(200);
+    }
 }
